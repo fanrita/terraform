@@ -17,3 +17,33 @@ resource "aws_instance" "web" {
     Name = "web"
   }
 }
+
+resource "aws_instance" "master" {
+  ami           = var.ubuntu
+  instance_type = "t2.micro"
+
+  key_name = aws_key_pair.devops.key_name
+
+  vpc_security_group_ids = [
+    aws_security_group.db_server_sg.id
+  ]
+
+  tags = {
+    Name = "master"
+  }
+}
+
+resource "aws_instance" "replica" {
+  ami           = var.ubuntu
+  instance_type = "t2.micro"
+
+  key_name = aws_key_pair.devops.key_name
+
+  vpc_security_group_ids = [
+    aws_security_group.db_server_sg.id
+  ]
+
+  tags = {
+    Name = "replica"
+  }
+}
